@@ -28,7 +28,8 @@ jobs:
       -
         name: Docker Build and push
         run: 
-         docker build -t 
+         docker build -t manishr10/learn-devops .
+         docker push manishr10/learn-devops
 
       - name: Deploy on Excloud
         uses: appleboy/ssh-action@v1.0.3
