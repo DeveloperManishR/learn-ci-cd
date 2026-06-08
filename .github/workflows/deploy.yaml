@@ -37,10 +37,14 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-            cd /home/ubuntu/learn-ci-cd
-            git pull
-            npm install
-            pm2 restart 0
+            # kill the existing docker conatiner
+            sudo docker rm -f manishr10/learn-devops || true
+
+            # Again pull the fresh image from hub 
+           sudo docker pull  manishr10/learn-devops
+
+            #Run docker run -d -p 8000:8000 manishr10/learn-devops
+           sudo docker run -d --name learn-devops --restart unless-stopped -p 8000:8000 manishr10/learn-devops
+
+            #Clean up old/unused images
+            sudo docker image prune -f
